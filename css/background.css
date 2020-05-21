@@ -1,0 +1,7 @@
+#full_page {
+  /* 背景图像的地址（url括号里）  */
+  background: url(https://ae01.alicdn.com/kf/H21b5f6b8496141a1979a33666e1074d9x.jpg);
+  /* 背景图像不重复 */
+  background-repeat: no-repeat;
+  
+}
