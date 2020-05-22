@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Here will be a new beginning</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://sanmengcc.github.io/"/>
+  <updated>2020-05-22T12:30:54.587Z</updated>
+  <id>https://sanmengcc.github.io/</id>
+  
+  <author>
+    <name>sanmeng</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>微信公众号-模板推送参数封装</title>
+    <link href="https://sanmengcc.github.io/2020/05/22/36798/hub/"/>
+    <id>https://sanmengcc.github.io/2020/05/22/36798/hub/</id>
+    <published>2020-05-21T16:47:01.000Z</published>
+    <updated>2020-05-22T12:30:54.587Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="微信推送模板"><a href="#微信推送模板" class="headerlink" title="微信推送模板"></a>微信推送模板</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;first.DATA&#125;&#125;</span><br><span class="line">审核状态：&#123;&#123;keyword1.DATA&#125;&#125;</span><br><span class="line">操作时间：&#123;&#123;keyword2.DATA&#125;&#125;</span><br><span class="line">&#123;&#123;remark.DATA&#125;&#125;</span><br></pre></td></tr></table></figure><h2 id="统一修改数据库存储的格式"><a href="#统一修改数据库存储的格式" class="headerlink" title="统一修改数据库存储的格式"></a>统一修改数据库存储的格式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;touser&quot;:&quot;$&#123;touser&#125;&quot;,</span><br><span class="line">&quot;data&quot;:$&#123;data&#125;,</span><br><span class="line">&quot;template_id&quot;:&quot;$&#123;template_id&#125;&quot;,</span><br><span class="line">&quot;miniprogram&quot;:&#123;&quot;pagepath&quot;:&quot;$&#123;pagepath&#125;&quot;,&quot;appid&quot;:&quot;$&#123;appid&#125;&quot;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="进行参数替换"><a href="#进行参数替换" class="headerlink" title="进行参数替换"></a>进行参数替换</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public List&lt;String&gt; wxTemplateConversion(WxTemplateVo wxTemplateVo, WxPushMsg wxPushMsg)&#123;</span><br><span class="line">       List&lt;String&gt; wxPushPostMsg &#x3D; new ArrayList&lt;&gt;();</span><br><span class="line">       if(wxPushMsg !&#x3D; null &amp;&amp; ValidateHelper.isNotEmptyCollection(wxPushMsg.getOpenidList()))&#123;</span><br><span class="line">           for(String openid:wxPushMsg.getOpenidList())&#123;</span><br><span class="line">               &#x2F;&#x2F;替换模板参数</span><br><span class="line">               String postStr &#x3D; wxTemplateVo.getContent();</span><br><span class="line">               &#x2F;&#x2F;模板ID</span><br><span class="line">               postStr &#x3D; postStr.replace(&quot;$&#123;template_id&#125;&quot;, wxTemplateVo.getTemplateId());</span><br><span class="line">               &#x2F;&#x2F;微信小程序appid</span><br><span class="line">               postStr &#x3D; postStr.replace(&quot;$&#123;appid&#125;&quot;, wxPushMsg.getAppid());</span><br><span class="line">               &#x2F;&#x2F;微信公众号用户openid</span><br><span class="line">               postStr &#x3D; postStr.replace(&quot;$&#123;touser&#125;&quot;, openid);</span><br><span class="line">               &#x2F;&#x2F;微信小程序内部地址</span><br><span class="line">               postStr &#x3D; postStr.replace(&quot;$&#123;pagepath&#125;&quot;, wxPushMsg.getPagepath());</span><br><span class="line">               &#x2F;&#x2F;推送参数</span><br><span class="line">               postStr &#x3D; postStr.replace(&quot;$&#123;data&#125;&quot;, JSONObject.toJSONString(wxPushMsg.getData()));</span><br><span class="line">               wxPushPostMsg.add(postStr);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       return wxPushPostMsg;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><h2 id="主要的是data的数据封装-使用可变参进行封装-尽量避免繁琐的first-remark的写法"><a href="#主要的是data的数据封装-使用可变参进行封装-尽量避免繁琐的first-remark的写法" class="headerlink" title="主要的是data的数据封装,使用可变参进行封装,尽量避免繁琐的first,remark的写法"></a>主要的是data的数据封装,使用可变参进行封装,尽量避免繁琐的first,remark的写法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static TreeMap&lt;String,WxTemplateData&gt; buildWxTemplateMsgData(WxTemplateData first, WxTemplateData remark, WxTemplateData...templateList)&#123;</span><br><span class="line">       TreeMap&lt;String, WxTemplateData&gt; dataTreeMap &#x3D; new TreeMap&lt;&gt;();</span><br><span class="line">       dataTreeMap.put(&quot;first&quot;, first);</span><br><span class="line">       for(int index &#x3D; 0;index &lt; templateList.length ;index++)&#123;</span><br><span class="line">           String key &#x3D; &quot;keyword&quot; + (index+ 1);</span><br><span class="line">           dataTreeMap.put(key, templateList[index]);</span><br><span class="line">       &#125;</span><br><span class="line">       dataTreeMap.put(&quot;remark&quot;, remark);</span><br><span class="line">       return dataTreeMap;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure><h2 id="统一调用"><a href="#统一调用" class="headerlink" title="统一调用"></a>统一调用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TreeMap&lt;String, WxTemplateData&gt; dataTreeMap &#x3D; WxPushUtil.buildWxTemplateMsgData(new WxTemplateData(&quot;感谢您进行实名认证!&quot;, &quot;&quot;),</span><br><span class="line">                    new WxTemplateData(&quot;**********************！&quot;, &quot;#FF0000&quot;),</span><br><span class="line">                    new WxTemplateData(&quot;认证成功&quot;, &quot;&quot;),</span><br><span class="line">                    new WxTemplateData(TimeUtil.getNowTime(), &quot;&quot;)</span><br><span class="line">            );</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;微信推送模板&quot;&gt;&lt;a href=&quot;#微信推送模板&quot; class=&quot;headerlink&quot; title=&quot;微信推送模板&quot;&gt;&lt;/a&gt;微信推送模板&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gut
+      
+    
+    </summary>
+    
+    
+      <category term="工具" scheme="https://sanmengcc.github.io/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="公众号" scheme="https://sanmengcc.github.io/tags/%E5%85%AC%E4%BC%97%E5%8F%B7/"/>
+    
+      <category term="JAVA" scheme="https://sanmengcc.github.io/tags/JAVA/"/>
+    
+  </entry>
+  
+</feed>
