@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>多线程基础-01(线程的生命周期)</title>
+      <link href="/2020/05/23/34947/hub/"/>
+      <url>/2020/05/23/34947/hub/</url>
+      
+        <content type="html"><![CDATA[<h2 id="线程的生命周期的五大阶段"><a href="#线程的生命周期的五大阶段" class="headerlink" title="线程的生命周期的五大阶段"></a>线程的生命周期的五大阶段</h2><h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><p><img src="/image/hexo/image-20200523212349727.png" alt="image-20200523212349727"></p><p>可以知道线程的生命周期大致分为以下5个阶段：</p><h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><h4 id="NEW（初始化）"><a href="#NEW（初始化）" class="headerlink" title="NEW（初始化）"></a>NEW（初始化）</h4><h4 id="RUNNABLE（就绪）"><a href="#RUNNABLE（就绪）" class="headerlink" title="RUNNABLE（就绪）"></a>RUNNABLE（就绪）</h4><h4 id="RUNNING（运行）"><a href="#RUNNING（运行）" class="headerlink" title="RUNNING（运行）"></a>RUNNING（运行）</h4><h4 id="BLOCKED（阻塞）"><a href="#BLOCKED（阻塞）" class="headerlink" title="BLOCKED（阻塞）"></a>BLOCKED（阻塞）</h4><h4 id="TERMINTED（死亡）"><a href="#TERMINTED（死亡）" class="headerlink" title="TERMINTED（死亡）"></a>TERMINTED（死亡）</h4><h2 id="线程的NEW状态"><a href="#线程的NEW状态" class="headerlink" title="线程的NEW状态"></a>线程的NEW状态</h2><p>&emsp;&emsp;当我们用关键字new创建出一个Thread对象时，此刻他不属于执行状态，在没有调用start方法启动该线程，此刻为NEW状态。严格意义上，仅仅只是Thread对象的状态，在未调用start方法前，该线程并不存在。此刻与普通的new一个Java对象并没有什么区别。  </p><p>&emsp;&emsp;NEW状态通过start方法进入RUNNABLE状态。</p><h2 id="线程的RUNNABLE状态"><a href="#线程的RUNNABLE状态" class="headerlink" title="线程的RUNNABLE状态"></a>线程的RUNNABLE状态</h2><p>&emsp;&emsp;线程对象进入RUNNABLE状态必须调用start方法，此时此刻才是在JVM进程中创建了一个线程，可以简单描述这个状态为就绪状态（可执行状态），因为在start方法调用后，线程并不是立即执行的，而是需要听令于CPU的调度。</p><p>&emsp;&emsp;所以，此刻线程处于就绪状态，等待CPU的调度。</p><h2 id="线程的RUNNING状态"><a href="#线程的RUNNING状态" class="headerlink" title="线程的RUNNING状态"></a>线程的RUNNING状态</h2><p>&emsp;&emsp;经过CPU的轮询或其他方式从任务可执行队列中选中该线程，此刻它才能执行自己的逻辑代码。</p><p>&emsp;&emsp;此状态下，可以发生如下状态转换：</p><p>&emsp;&emsp;1.直接进入TERMINED状态。例如调用JDK已经不推荐使用的stop方法。</p><p>&emsp;&emsp;2.进入BLOCKED状态。例如调用sleep方法，或者wait方法从而加入了waitSet(所有的对象都会有一个waitSet，用来存放调用了该对象的wait方法之后进入block状态的线程)。还可能争夺锁或者进行某个阻塞的IO操作。</p><p>&emsp;&emsp;3.CPU的调度器使得该线程放弃了执行权，或者主动调用yield方法放弃CPU执行权，进入RUNNABLE状态。(Thread.yield():暂停当前执行的线程，使其进入RUNNABLE状态，并执行其他线程。但是实际上并不能完美的达到让步，因为执行让步的线程还有可能被CPU调度再次进入RUNNING状态)</p><h2 id="线程的BLOCKED状态"><a href="#线程的BLOCKED状态" class="headerlink" title="线程的BLOCKED状态"></a>线程的BLOCKED状态</h2><p>&emsp;&emsp;此状态下可以完成下列几个状态的切换：</p><p>&emsp;&emsp;1.直接进入TERMINED状态。例如调用stop方法（不推荐使用），或者JVM Crash。</p><p>&emsp;&emsp;2.线程阻塞的操作结束。例如读取到了理想的数据，进入RUNNABLE状态。</p><p>&emsp;&emsp;3.完成了指定时间的休眠，进入RUNNABLE状态。</p><p>&emsp;&emsp;4.wait状态中被其他线程唤醒（notify、notifyAll），进入RUNNABLE状态。</p><p>&emsp;&emsp;5.获取到了锁资源，进入RUNNABLE状态。</p><p>&emsp;&emsp;6.线程在阻塞过程中被打断（interrupt），进入RUNNABLE状态。</p><h2 id="线程的TERMINED状态"><a href="#线程的TERMINED状态" class="headerlink" title="线程的TERMINED状态"></a>线程的TERMINED状态</h2><p>&emsp;&emsp;该状态为线程的最终状态，不会再切换到任何状态，此时线程的生命周期结束。</p><p>&emsp;&emsp;1.正常操作，线程终止，结束生命周期。</p><p>&emsp;&emsp;2.线程逻辑运行异常结束。</p><p>&emsp;&emsp;3.JVM Crash导致所有线程结束。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JAVA </category>
+          
+          <category> 多线程 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JAVA </tag>
+            
+            <tag> 多线程 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>微信公众号-模板推送参数封装</title>
       <link href="/2020/05/22/16706/hub/"/>
       <url>/2020/05/22/16706/hub/</url>
