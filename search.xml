@@ -41,7 +41,7 @@
       <link href="/2020/07/02/64031/hub/"/>
       <url>/2020/07/02/64031/hub/</url>
       
-        <content type="html"><![CDATA[<p><img src="/image/hexo/image-20200702213205428.png" alt="image-20200702213205428"></p><h2 id="抽取背景"><a href="#抽取背景" class="headerlink" title="抽取背景"></a>抽取背景</h2><p>&emsp;&emsp;最近在项目中需要记录SQL影响的痕迹，考虑到很多会引起业务的入侵，所以考虑从SQL层面去解决这个问题，那么使用<strong>mybatis</strong>框架的就会涉及到SQL的解析问题，最终选择了阿里巴巴开源的<strong>Druid</strong>，但是由于目前项目并不是采用的<strong>Druid</strong>，仅仅只是需要它的SQL解析器部分，所以才有了从中拆分出SQL解析器模块的想法。</p><p>&emsp;&emsp;至于<strong>SpringDataJpa</strong>框架，可以采用对象监听的方式去实现，相比较于<strong>Mybatis</strong>更加的简单。将在另外的文章中去简单介绍。</p><h2 id="Druid源码"><a href="#Druid源码" class="headerlink" title="Druid源码"></a>Druid源码</h2><h3 id="源码地址"><a href="#源码地址" class="headerlink" title="源码地址"></a>源码地址</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//github.com/alibaba/druid.git</span></span><br></pre></td></tr></table></figure><h3 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h3><p><img src="/image/hexo/image-20200702214520176.png" alt="image-20200702214520176"></p><h2 id="暴力删减源码"><a href="#暴力删减源码" class="headerlink" title="暴力删减源码"></a>暴力删减源码</h2><h3 id="删减后源码结构"><a href="#删减后源码结构" class="headerlink" title="删减后源码结构"></a>删减后源码结构</h3><p><img src="/image/hexo/image-20200702214616226.png" alt="image-20200702214616226"></p><p>&emsp;&emsp;暴力删减源码也没什么可说的，主要的核心在<strong>sql</strong>包内，其实目前我只是赶时间并没有处理的很细致，只能说使用起来勉勉强强的。但是应该也满足基本的使用的，不过我测试发现其实对特殊字符的支持不是很友好，开源之路，路途遥远。</p><p>&emsp;&emsp;我删减后的Druid源码地址：<a href="git@github.com:sanmengcc/druid-sql.git">Github</a></p>]]></content>
+        <content type="html"><![CDATA[<p><img src="/image/hexo/image-20200702213205428.png" alt="image-20200702213205428"></p><h2 id="抽取背景"><a href="#抽取背景" class="headerlink" title="抽取背景"></a>抽取背景</h2><p>&emsp;&emsp;最近在项目中需要记录SQL影响的痕迹，考虑到很多会引起业务的入侵，所以考虑从SQL层面去解决这个问题，那么使用<strong>mybatis</strong>框架的就会涉及到SQL的解析问题，最终选择了阿里巴巴开源的<strong>Druid</strong>，但是由于目前项目并不是采用的<strong>Druid</strong>，仅仅只是需要它的SQL解析器部分，所以才有了从中拆分出SQL解析器模块的想法。</p><p>&emsp;&emsp;至于<strong>SpringDataJpa</strong>框架，可以采用对象监听的方式去实现，相比较于<strong>Mybatis</strong>更加的简单。将在另外的文章中去简单介绍。</p><h2 id="Druid源码"><a href="#Druid源码" class="headerlink" title="Druid源码"></a>Druid源码</h2><h3 id="源码地址"><a href="#源码地址" class="headerlink" title="源码地址"></a>源码地址</h3><p><a href="https://github.com/alibaba/druid.git" target="_blank" rel="noopener">Github</a></p><h3 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h3><p><img src="/image/hexo/image-20200702214520176.png" alt="image-20200702214520176"></p><h2 id="暴力删减源码"><a href="#暴力删减源码" class="headerlink" title="暴力删减源码"></a>暴力删减源码</h2><h3 id="删减后源码结构"><a href="#删减后源码结构" class="headerlink" title="删减后源码结构"></a>删减后源码结构</h3><p><img src="/image/hexo/image-20200702214616226.png" alt="image-20200702214616226"></p><p>&emsp;&emsp;暴力删减源码也没什么可说的，主要的核心在<strong>sql</strong>包内，其实目前我只是赶时间并没有处理的很细致，只能说使用起来勉勉强强的。但是应该也满足基本的使用的，不过我测试发现其实对特殊字符的支持不是很友好，开源之路，路途遥远。</p><p>&emsp;&emsp;我删减后的Druid源码地址：<a href="git@github.com:sanmengcc/druid-sql.git">Github</a></p>]]></content>
       
       
       <categories>
@@ -92,7 +92,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
@@ -121,11 +121,11 @@
       
         <tags>
             
-            <tag> JAVA </tag>
-            
             <tag> 微信 </tag>
             
             <tag> 工具 </tag>
+            
+            <tag> API </tag>
             
         </tags>
       
@@ -158,7 +158,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
@@ -191,7 +191,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
@@ -224,7 +224,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
@@ -257,7 +257,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
@@ -290,7 +290,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
@@ -458,7 +458,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
@@ -491,7 +491,7 @@
             
             <tag> 微信 </tag>
             
-            <tag> 工具 </tag>
+            <tag> API </tag>
             
         </tags>
       
