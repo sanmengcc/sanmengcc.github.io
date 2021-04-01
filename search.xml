@@ -15,7 +15,7 @@
           
           <category> Linux </category>
           
-          <category> Docker </category>
+          <category> Java </category>
           
           <category> Hadoop </category>
           
@@ -26,9 +26,9 @@
             
             <tag> Linux </tag>
             
-            <tag> Docker </tag>
-            
             <tag> Hadoop </tag>
+            
+            <tag> Java </tag>
             
         </tags>
       
