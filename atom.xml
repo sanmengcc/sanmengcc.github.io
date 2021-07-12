@@ -85,6 +85,39 @@
   </entry>
   
   <entry>
+    <title>SSR教程以及锐速安装(阿里云应用服务器)</title>
+    <link href="https://blog.huhdcc.top/2021/03/30/27227/hub/"/>
+    <id>https://blog.huhdcc.top/2021/03/30/27227/hub/</id>
+    <published>2021-03-30T15:27:09.000Z</published>
+    <updated>2021-07-12T03:11:34.584Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/image/hexo/image-20210330233108125.png" alt="image-20210330233108125"></p><h2 id="SSR节点更新"><a href="#SSR节点更新" class="headerlink" title="SSR节点更新"></a>SSR节点更新</h2><p>【2021-07-12】</p><p>香港阿里云节点：ssr://NDcuMjQyLjEwOS4yMjg6MTAwMDE6YXV0aF9zaGExX3Y0OmFlcy0xMjgtY3RyOnBsYWluOllXUnRhVzQ</p><h2 id="YouTube下载服务"><a href="#YouTube下载服务" class="headerlink" title="YouTube下载服务"></a>YouTube下载服务</h2><p>&emsp;&emsp;coding中…………</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;/image/hexo/image-20210330233108125.png&quot; alt=&quot;image-20210330233108125&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;SSR节点更新&quot;&gt;&lt;a href=&quot;#SSR节点更新&quot; class=&quot;headerli
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://blog.huhdcc.top/categories/Linux/"/>
+    
+      <category term="Shell" scheme="https://blog.huhdcc.top/categories/Linux/Shell/"/>
+    
+    
+      <category term="工具" scheme="https://blog.huhdcc.top/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="Linux" scheme="https://blog.huhdcc.top/tags/Linux/"/>
+    
+      <category term="Shell" scheme="https://blog.huhdcc.top/tags/Shell/"/>
+    
+  </entry>
+  
+  <entry>
     <title>多线程高阶-53-Phaser详解</title>
     <link href="https://blog.huhdcc.top/2020/07/25/56893/hub/"/>
     <id>https://blog.huhdcc.top/2020/07/25/56893/hub/</id>
@@ -627,39 +660,6 @@
       
         &lt;p&gt;&lt;img src=&quot;/image/hexo/image-20200706195730184.png&quot; alt=&quot;image-20200706195730184&quot;&gt;&lt;/p&gt;
 &lt;p&gt;&amp;emsp;&amp;emsp;&lt;strong&gt;AtomicMarkableReference&lt;/str
-      
-    
-    </summary>
-    
-    
-      <category term="JAVA" scheme="https://blog.huhdcc.top/categories/JAVA/"/>
-    
-      <category term="多线程" scheme="https://blog.huhdcc.top/categories/JAVA/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    
-    
-      <category term="JAVA" scheme="https://blog.huhdcc.top/tags/JAVA/"/>
-    
-      <category term="多线程" scheme="https://blog.huhdcc.top/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    
-      <category term="源码深入" scheme="https://blog.huhdcc.top/tags/%E6%BA%90%E7%A0%81%E6%B7%B1%E5%85%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>多线程高阶-36-AtomicReferenceFieldUpdater详解</title>
-    <link href="https://blog.huhdcc.top/2020/07/06/4166/hub/"/>
-    <id>https://blog.huhdcc.top/2020/07/06/4166/hub/</id>
-    <published>2020-07-06T11:18:02.000Z</published>
-    <updated>2020-07-06T13:56:52.949Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/image/hexo/image-20200706215649994.png" alt="image-20200706215649994"></p><h2 id="AtomicReferenceFieldUpdater相关API"><a href="#AtomicReferenceFieldUpdater相关API" class="headerlink" title="AtomicReferenceFieldUpdater相关API"></a>AtomicReferenceFieldUpdater相关API</h2><h3 id="类声明"><a href="#类声明" class="headerlink" title="类声明"></a>类声明</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AtomicReferenceFieldUpdater</span>&lt;<span class="title">T</span>,<span class="title">V</span>&gt;</span></span><br></pre></td></tr></table></figure><h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造函数</span></span><br><span class="line">AtomicReferenceFieldUpdater&lt;Person, String&gt; updater = AtomicReferenceFieldUpdater.newUpdater(Person.class, String.class, "name");</span><br></pre></td></tr></table></figure><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h4 id="accumulateAndGet"><a href="#accumulateAndGet" class="headerlink" title="accumulateAndGet"></a>accumulateAndGet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Person person = <span class="keyword">new</span> Person(<span class="number">1001</span>, <span class="string">"p1"</span>);</span><br><span class="line"><span class="comment">//accumulateAndGet</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 1.先执行BinaryOperator函数</span></span><br><span class="line"><span class="comment"> * 2.再get</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">System.out.println(updater.accumulateAndGet(person, <span class="string">"p1"</span>, (x, y) -&gt; x + y));</span><br></pre></td></tr></table></figure><h4 id="compareAndSet"><a href="#compareAndSet" class="headerlink" title="compareAndSet"></a>compareAndSet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//compareAndSet</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 1.先对比</span></span><br><span class="line"><span class="comment"> * 2.成功则更新指定数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">System.out.println(updater.compareAndSet(person, <span class="string">"p1p1"</span>, <span class="string">"p2"</span>));</span><br></pre></td></tr></table></figure><h4 id="get"><a href="#get" class="headerlink" title="get"></a>get</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//get</span></span><br><span class="line">System.out.println(updater.get(person));</span><br></pre></td></tr></table></figure><h4 id="getAndAccumulate"><a href="#getAndAccumulate" class="headerlink" title="getAndAccumulate"></a>getAndAccumulate</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//getAndAccumulate</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 1.先get</span></span><br><span class="line"><span class="comment"> * 2.再执行BinaryOperator函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">System.out.println(updater.getAndAccumulate(person, <span class="string">"p3"</span>, (x, y) -&gt; x + y));</span><br></pre></td></tr></table></figure><h4 id="getAndSet"><a href="#getAndSet" class="headerlink" title="getAndSet"></a>getAndSet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//getAndSet</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 1.先get</span></span><br><span class="line"><span class="comment"> * 2.再set指定数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">System.out.println(updater.getAndSet(person,<span class="string">"p4"</span>));</span><br></pre></td></tr></table></figure><h4 id="getAndUpdate"><a href="#getAndUpdate" class="headerlink" title="getAndUpdate"></a>getAndUpdate</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//getAndUpdate</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 1.先get </span></span><br><span class="line"><span class="comment"> * 2.再执行UnaryOperator操作函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">System.out.println(updater.getAndUpdate(person, x -&gt; x + <span class="string">"p5"</span>));</span><br></pre></td></tr></table></figure><h4 id="lazySet"><a href="#lazySet" class="headerlink" title="lazySet"></a>lazySet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//lazySet</span></span><br><span class="line">updater.lazySet(person, <span class="string">"p6"</span>);</span><br></pre></td></tr></table></figure><h4 id="set"><a href="#set" class="headerlink" title="set"></a>set</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//set</span></span><br><span class="line">updater.set(person, <span class="string">"p7"</span>);</span><br></pre></td></tr></table></figure><h4 id="updateAndGet"><a href="#updateAndGet" class="headerlink" title="updateAndGet"></a>updateAndGet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//updateAndGet</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 1.先执行UnaryOperator操作函数</span></span><br><span class="line"><span class="comment"> * 2.再get</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">System.out.println(updater.updateAndGet(person, x -&gt; x + <span class="string">"p8"</span>));</span><br></pre></td></tr></table></figure><h4 id="weakCompareAndSet"><a href="#weakCompareAndSet" class="headerlink" title="weakCompareAndSet"></a>weakCompareAndSet</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//weakCompareAndSet</span></span><br><span class="line">System.out.println(updater.weakCompareAndSet(person, <span class="string">"p8"</span>, <span class="string">"p9"</span>));</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;/image/hexo/image-20200706215649994.png&quot; alt=&quot;image-20200706215649994&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;AtomicReferenceFieldUpdater相关API&quot;&gt;&lt;a href=&quot;
       
     
     </summary>

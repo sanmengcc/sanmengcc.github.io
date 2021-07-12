@@ -68,6 +68,37 @@
     
     
     <entry>
+      <title>SSR教程以及锐速安装(阿里云应用服务器)</title>
+      <link href="/2021/03/30/27227/hub/"/>
+      <url>/2021/03/30/27227/hub/</url>
+      
+        <content type="html"><![CDATA[<p><img src="/image/hexo/image-20210330233108125.png" alt="image-20210330233108125"></p><h2 id="SSR节点更新"><a href="#SSR节点更新" class="headerlink" title="SSR节点更新"></a>SSR节点更新</h2><p>【2021-07-12】</p><p>香港阿里云节点：ssr://NDcuMjQyLjEwOS4yMjg6MTAwMDE6YXV0aF9zaGExX3Y0OmFlcy0xMjgtY3RyOnBsYWluOllXUnRhVzQ</p><h2 id="YouTube下载服务"><a href="#YouTube下载服务" class="headerlink" title="YouTube下载服务"></a>YouTube下载服务</h2><p>&emsp;&emsp;coding中…………</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+          <category> Shell </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 工具 </tag>
+            
+            <tag> Linux </tag>
+            
+            <tag> Shell </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>多线程高阶-53-Phaser详解</title>
       <link href="/2020/07/25/56893/hub/"/>
       <url>/2020/07/25/56893/hub/</url>
