@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.huhdcc.top/"/>
-  <updated>2021-04-01T00:37:19.539Z</updated>
+  <updated>2021-07-12T03:17:00.140Z</updated>
   <id>https://blog.huhdcc.top/</id>
   
   <author>
@@ -15,6 +15,39 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SSR更新以及YouTube下载服务</title>
+    <link href="https://blog.huhdcc.top/2021/07/12/27227/hub/"/>
+    <id>https://blog.huhdcc.top/2021/07/12/27227/hub/</id>
+    <published>2021-07-12T03:16:09.000Z</published>
+    <updated>2021-07-12T03:17:00.140Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/image/hexo/image-20210712111556924.png" alt="image-20210712111556924"></p><h2 id="SSR节点更新"><a href="#SSR节点更新" class="headerlink" title="SSR节点更新"></a>SSR节点更新</h2><p>【2021-07-12】</p><p>香港阿里云节点：ssr://NDcuMjQyLjEwOS4yMjg6MTAwMDE6YXV0aF9zaGExX3Y0OmFlcy0xMjgtY3RyOnBsYWluOllXUnRhVzQ</p><h2 id="YouTube下载服务"><a href="#YouTube下载服务" class="headerlink" title="YouTube下载服务"></a>YouTube下载服务</h2><p>&emsp;&emsp;coding中…………</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;/image/hexo/image-20210712111556924.png&quot; alt=&quot;image-20210712111556924&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;SSR节点更新&quot;&gt;&lt;a href=&quot;#SSR节点更新&quot; class=&quot;headerli
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://blog.huhdcc.top/categories/Linux/"/>
+    
+      <category term="Shell" scheme="https://blog.huhdcc.top/categories/Linux/Shell/"/>
+    
+    
+      <category term="工具" scheme="https://blog.huhdcc.top/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="Linux" scheme="https://blog.huhdcc.top/tags/Linux/"/>
+    
+      <category term="Shell" scheme="https://blog.huhdcc.top/tags/Shell/"/>
+    
+  </entry>
   
   <entry>
     <title>hadoop集群模式搭建-基础版</title>
@@ -66,39 +99,6 @@
       
         &lt;p&gt;&lt;img src=&quot;/image/hexo/image-20210330233108125.png&quot; alt=&quot;image-20210330233108125&quot;&gt;&lt;/p&gt;
 &lt;p&gt;&amp;emsp;&amp;emsp;本篇内容需要有&lt;strong&gt;Linux&lt;/strong&gt;以及基本的&lt;s
-      
-    
-    </summary>
-    
-    
-      <category term="Linux" scheme="https://blog.huhdcc.top/categories/Linux/"/>
-    
-      <category term="Shell" scheme="https://blog.huhdcc.top/categories/Linux/Shell/"/>
-    
-    
-      <category term="工具" scheme="https://blog.huhdcc.top/tags/%E5%B7%A5%E5%85%B7/"/>
-    
-      <category term="Linux" scheme="https://blog.huhdcc.top/tags/Linux/"/>
-    
-      <category term="Shell" scheme="https://blog.huhdcc.top/tags/Shell/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SSR教程以及锐速安装(阿里云应用服务器)</title>
-    <link href="https://blog.huhdcc.top/2021/03/30/27227/hub/"/>
-    <id>https://blog.huhdcc.top/2021/03/30/27227/hub/</id>
-    <published>2021-03-30T15:27:09.000Z</published>
-    <updated>2021-07-12T03:11:34.584Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/image/hexo/image-20210330233108125.png" alt="image-20210330233108125"></p><h2 id="SSR节点更新"><a href="#SSR节点更新" class="headerlink" title="SSR节点更新"></a>SSR节点更新</h2><p>【2021-07-12】</p><p>香港阿里云节点：ssr://NDcuMjQyLjEwOS4yMjg6MTAwMDE6YXV0aF9zaGExX3Y0OmFlcy0xMjgtY3RyOnBsYWluOllXUnRhVzQ</p><h2 id="YouTube下载服务"><a href="#YouTube下载服务" class="headerlink" title="YouTube下载服务"></a>YouTube下载服务</h2><p>&emsp;&emsp;coding中…………</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;/image/hexo/image-20210330233108125.png&quot; alt=&quot;image-20210330233108125&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;SSR节点更新&quot;&gt;&lt;a href=&quot;#SSR节点更新&quot; class=&quot;headerli
       
     
     </summary>
