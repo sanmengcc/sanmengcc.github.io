@@ -1,25 +1,174 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>多线程进阶-09-volatile关键字介绍与深入 | Here will be a new beginning</title><meta name="description" content="volatile关键字解决的问题&amp;emsp;&amp;emsp;只能修饰类变量和实例变量，对于方法参数、局部变量以及实例常量，类常量都不能进行修饰。 CPU缓存一致性问题CPU&amp;emsp;&amp;emsp;在计算机中，所有的运算都是依靠CPU的寄存器完成的。CPU指令的执行过程需要涉及数据的读取与写入操作，CPU所访问的所有数据只能是计算机的主存（一般指RAM），虽然CPU的发展频率不断得到提升，但是受制于制"><meta name="keywords" content="JAVA,多线程"><meta name="author" content="sanmeng"><meta name="copyright" content="sanmeng"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://hm.baidu.com"/><link rel="dns-prefetch" href="https://hm.baidu.com"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="多线程进阶-09-volatile关键字介绍与深入"><meta name="twitter:description" content="volatile关键字解决的问题&amp;emsp;&amp;emsp;只能修饰类变量和实例变量，对于方法参数、局部变量以及实例常量，类常量都不能进行修饰。 CPU缓存一致性问题CPU&amp;emsp;&amp;emsp;在计算机中，所有的运算都是依靠CPU的寄存器完成的。CPU指令的执行过程需要涉及数据的读取与写入操作，CPU所访问的所有数据只能是计算机的主存（一般指RAM），虽然CPU的发展频率不断得到提升，但是受制于制"><meta name="twitter:image" content="https://blog.huhdcc.top/image/hexo/image-20200604173028965.png"><meta property="og:type" content="article"><meta property="og:title" content="多线程进阶-09-volatile关键字介绍与深入"><meta property="og:url" content="https://blog.huhdcc.top/2020/06/04/31866/hub/"><meta property="og:site_name" content="Here will be a new beginning"><meta property="og:description" content="volatile关键字解决的问题&amp;emsp;&amp;emsp;只能修饰类变量和实例变量，对于方法参数、局部变量以及实例常量，类常量都不能进行修饰。 CPU缓存一致性问题CPU&amp;emsp;&amp;emsp;在计算机中，所有的运算都是依靠CPU的寄存器完成的。CPU指令的执行过程需要涉及数据的读取与写入操作，CPU所访问的所有数据只能是计算机的主存（一般指RAM），虽然CPU的发展频率不断得到提升，但是受制于制"><meta property="og:image" content="https://blog.huhdcc.top/image/hexo/image-20200604173028965.png"><meta property="article:published_time" content="2020-06-04T09:03:51.000Z"><meta property="article:modified_time" content="2020-07-03T14:45:18.573Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-block content
-  article#post(class="")
-    #article-container.post-content!=page.content
-    include includes/post/post-copyright.pug
-    .tag_share
-      if (theme.post_meta.post.tags)
-        .post-meta__tag-list
-          each item, index in page.tags.data
-            a(href=url_for(item.path)).post-meta__tags #[=item.name]
-      !=partial('includes/share/index', {}, {cache:theme.fragment_cache})
-        
-    if theme.reward.enable
-      !=partial('includes/post/reward', {}, {cache:theme.fragment_cache})
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
 
-    //- ad
-    if theme.ad && theme.ad.post
-      .post-ad!=theme.ad.post
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
 
-    include includes/pagination.pug
-    if theme.related_post && theme.related_post.enable
-      != related_posts(page,site.posts)
-    if page.comments !== false
-      include includes/comments/index.pug
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://blog.huhdcc.top/2020/06/04/31866/hub/"><link rel="prev" title="多线程进阶-10-单例模式与扩展" href="https://blog.huhdcc.top/2020/06/05/61297/hub/"><link rel="next" title="多线程基础-08-线程池原理以及自定义线程池" href="https://blog.huhdcc.top/2020/05/26/16504/hub/"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?5896b35ca19338a74f13168d02db0318";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: {"text":"富强,民主,文明,和谐,自由,平等,公正,法治,爱国,敬业,诚信,友善","fontSize":"15px"},
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@master/Hexo/css/custom.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@master/Hexo/css/hideCategory.min.css"><meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="Here will be a new beginning" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/head.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">71</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">17</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">17</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字解决的问题"><span class="toc-number">1.</span> <span class="toc-text">volatile关键字解决的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU缓存一致性问题"><span class="toc-number">1.1.</span> <span class="toc-text">CPU缓存一致性问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU"><span class="toc-number">1.1.1.</span> <span class="toc-text">CPU</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CPU-cache模型"><span class="toc-number">1.1.2.</span> <span class="toc-text">CPU cache模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#缓存一致性问题"><span class="toc-number">1.1.3.</span> <span class="toc-text">缓存一致性问题</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#数据总线加锁"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">数据总线加锁</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#缓存一致性协议"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">缓存一致性协议</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java内存模型"><span class="toc-number">1.2.</span> <span class="toc-text">Java内存模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发编程的几大特性"><span class="toc-number">2.</span> <span class="toc-text">并发编程的几大特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原子性"><span class="toc-number">2.1.</span> <span class="toc-text">原子性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可见性"><span class="toc-number">2.2.</span> <span class="toc-text">可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有序性"><span class="toc-number">2.3.</span> <span class="toc-text">有序性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JMM怎么保证三大特性"><span class="toc-number">2.4.</span> <span class="toc-text">JMM怎么保证三大特性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JMM与原子性"><span class="toc-number">2.4.1.</span> <span class="toc-text">JMM与原子性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JMM与可见性"><span class="toc-number">2.4.2.</span> <span class="toc-text">JMM与可见性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JMM与有序性"><span class="toc-number">2.4.3.</span> <span class="toc-text">JMM与有序性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#happens-before原则"><span class="toc-number">2.4.4.</span> <span class="toc-text">happens-before原则</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile关键字深入"><span class="toc-number">3.</span> <span class="toc-text">volatile关键字深入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile的语义"><span class="toc-number">3.1.</span> <span class="toc-text">volatile的语义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原理与实现机制"><span class="toc-number">3.2.</span> <span class="toc-text">原理与实现机制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile与synchronized"><span class="toc-number">4.</span> <span class="toc-text">volatile与synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用区别"><span class="toc-number">4.1.</span> <span class="toc-text">使用区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对原子性的保证"><span class="toc-number">4.2.</span> <span class="toc-text">对原子性的保证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对可见性的保证"><span class="toc-number">4.3.</span> <span class="toc-text">对可见性的保证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对有序性的保证"><span class="toc-number">4.4.</span> <span class="toc-text">对有序性的保证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-number">4.5.</span> <span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lock指令"><span class="toc-number">5.</span> <span class="toc-text">Lock指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存屏障"><span class="toc-number">6.</span> <span class="toc-text">内存屏障</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://blog.huhdcc.top/image/hexo/image-20200604173028965.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Here will be a new beginning</a></span><span class="pull_right menus"><div id="search_button"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">多线程进阶-09-volatile关键字介绍与深入</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-06-04 17:03:51"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2020-06-04</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-07-03 22:45:18"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-07-03</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/JAVA/">JAVA</a><i class="fa fa-angle-right post-meta__separator" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/JAVA/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">4.1k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 12 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p><img src="/image/hexo/image-20200604173028965.png" alt="image-20200604173028965"></p>
+<h2 id="volatile关键字解决的问题"><a href="#volatile关键字解决的问题" class="headerlink" title="volatile关键字解决的问题"></a>volatile关键字解决的问题</h2><p>&emsp;&emsp;只能修饰类变量和实例变量，对于方法参数、局部变量以及实例常量，类常量都不能进行修饰。</p>
+<h3 id="CPU缓存一致性问题"><a href="#CPU缓存一致性问题" class="headerlink" title="CPU缓存一致性问题"></a>CPU缓存一致性问题</h3><h4 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h4><p>&emsp;&emsp;在计算机中，所有的运算都是依靠CPU的寄存器完成的。CPU指令的执行过程需要涉及数据的读取与写入操作，CPU所访问的所有数据只能是计算机的主存（一般指RAM），虽然CPU的发展频率不断得到提升，但是受制于制造工艺以及成本的限制，计算机的内存反倒在访问速度上没有多大的突破。因此，CPU的处理速度和内存的访问速度差距越来越大，通常这种差距可以达到上千倍，极端情况下可以达到上万倍。</p>
+<h4 id="CPU-cache模型"><a href="#CPU-cache模型" class="headerlink" title="CPU cache模型"></a>CPU cache模型</h4><p>&emsp;&emsp;在这种差距的情况下，大大降低了CPU整体的吞吐量，于是有了在CPU和主内存之间增加缓存的设计。Cache的出现是为了解决CPU直接访问内存导致效率低下的问题，程序在运行过程中，会将运算所需要的数据从主内存复制一份到CPU Cache中，这样CPU可以直接对Cache进行操作，当运算结束以后再将最新的数据刷新到主内存中，这样通过Cache的方式大大的提高了吞吐能力。</p>
+<p><img src="/image/hexo/image-20200604174337130.png" alt="image-20200604174337130"></p>
+<h4 id="缓存一致性问题"><a href="#缓存一致性问题" class="headerlink" title="缓存一致性问题"></a>缓存一致性问题</h4><p>&emsp;&emsp;由于缓存机制的出现，极大程度的提高了CPU的吞吐能力，但是也会带来缓存不一致的问题。比如i++的操作，在程序运行的过程中。首先，需要将主内存中的数据复制一份存放到CPU Cache中，那么CPU寄存器在进行数值计算的时候就直接到Cache中读取与写入，当整个过程运算结束以后再将Cache中的数据刷新到主内存中。</p>
+<p>&emsp;1.读取主内存的i到CPU Cache中。</p>
+<p>&emsp;2.对i进行加一操作。</p>
+<p>&emsp;3.将数据结果写入Cache中。</p>
+<p>&emsp;4.将数据从Cache刷新到主内存中。</p>
+<p>&emsp;i++在单线程中是不会有任何问题的，如果在多线程的情况下，每个线程都有自己的工作内存，变量i会在多个线程的本地内存中都会存在一个副本。如果有多个线程同时进行i++操作，那么每个线程操作完以后都会将自己的结果刷新到主内存，但是每一个线程操作的最终结果可能不一致，那么就会出现典型的缓存不一致的问题。</p>
+<p>&emsp;&emsp;为了避免这种情况，主流的解决方案主要是：1.通过总线加锁的方式，2.通过缓存一致性协议。</p>
+<h5 id="数据总线加锁"><a href="#数据总线加锁" class="headerlink" title="数据总线加锁"></a>数据总线加锁</h5><p><img src="/image/hexo/image-20200604175316826.png" alt="image-20200604175316826"></p>
+<p>&emsp;&emsp;这种方式主要在早期的CPU中，是一种悲观的实现方式，CPU和其他组件都是通过总线进行的，如果采用总线加锁的方式，会阻塞其他CPU的运行，仅有一个CPU能够抢到总线锁，这种方式能够解决缓存的问题，但是也导致了效率低效的问题。</p>
+<h5 id="缓存一致性协议"><a href="#缓存一致性协议" class="headerlink" title="缓存一致性协议"></a>缓存一致性协议</h5><p>&emsp;&emsp;在缓存一致性协议中最为出名的是Intel的MESI协议，MESI协议保证了每一个缓存中使用的共享变量副本都是一致的。当CPU操作了Cache中的数据时，如果发现该变量是一个共享变量，那么：</p>
+<p>&emsp;&emsp;1.读取操作，不做任何处理，只是将Cache中的数据读取到寄存器。</p>
+<p>&emsp;&emsp;2.写入操作，发出信号通知其他CPU将该变量的Cache line设置为无效状态，其他CPU在进行读取该变量的时候不得不到主内存中再次获取。</p>
+<h3 id="Java内存模型"><a href="#Java内存模型" class="headerlink" title="Java内存模型"></a>Java内存模型</h3><p><img src="/image/hexo/image-20200604202041341.png" alt="image-20200604202041341"></p>
+<p>&emsp;&emsp;Java内存模型（Java Memory Mode，JMM）指定了Java虚拟机如何与计算机的主内存进行工作。Java的内存模型决定了一个线程对共享变量的写入何时对其他线程可见，Java内存模型定义了线程和主内存之间的抽线关系。</p>
+<p>&emsp;&emsp;1.共享变量储存于主内存中，每个线程都可以访问。</p>
+<p>&emsp;&emsp;2.每个线程都有私有的工作内存或者称为本地内存。</p>
+<p>&emsp;&emsp;3.工作内存值存储该线程对共享变量的副本。</p>
+<p>&emsp;&emsp;4.线程不能直接操作主内存，只有先操作了工作内存后才能写入主内存。</p>
+<p>&emsp;&emsp;5.工作内存和Java内存模型一样，也是一个抽象的概念，它其实并不存在，它涵盖了缓存，寄存器，编译器优化以及硬件等。</p>
+<p><img src="/image/hexo/image-20200604204310907.png" alt="image-20200604204310907"></p>
+<h2 id="并发编程的几大特性"><a href="#并发编程的几大特性" class="headerlink" title="并发编程的几大特性"></a>并发编程的几大特性</h2><h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>&emsp;&emsp;指在一次操作或者多次操作中，要么所有的操作全部得到了执行并且不会受到任何因素的干扰而中断，要么所有的操作都不执行。两个原子性的操作结合在一起未必还是原子性的操作，volatile关键字并没有保证数据的原子性而是有synchronized关键字保证的，从JDK1.5开始，提供了原子类型的变量也可以保证原子性。</p>
+<h3 id="可见性"><a href="#可见性" class="headerlink" title="可见性"></a>可见性</h3><p>&emsp;&emsp;当前线程对共享变量进行了修改，那么另外的线程可以立即看到修改后的结果。</p>
+<h3 id="有序性"><a href="#有序性" class="headerlink" title="有序性"></a>有序性</h3><p>&emsp;&emsp;指在程序代码执行过程中的先后顺序，由于Java在编译以及运行时期做了一些优化，导致代码的执行顺序未必是原始代码的顺序。</p>
+<p>&emsp;&emsp;Java会在运行期间发生指令重排序，导致最终代码的执行顺序可能与原始编写的代码不一致，但是会保证最终结果的一致，这也就是俗称的：最终一致性。</p>
+<h3 id="JMM怎么保证三大特性"><a href="#JMM怎么保证三大特性" class="headerlink" title="JMM怎么保证三大特性"></a>JMM怎么保证三大特性</h3><p>&emsp;&emsp;Java内存模型规定了所有的变量都是存在于主内存当中的，而每个线程都有自己的工作内存，线程对变量的所有操作都必须在自己的工作内存中进行，而不能直接操作主内存，并且每一个线程不能访问其他线程工作内存。</p>
+<h4 id="JMM与原子性"><a href="#JMM与原子性" class="headerlink" title="JMM与原子性"></a>JMM与原子性</h4><p>&emsp;&emsp;1.多个原子性的操作结合在一起就不再是原子性操作了。</p>
+<p>&emsp;&emsp;2.简单的读取与赋值操作都是原子性操作，将一个变量赋值给另一个变量将不再是原子性操作。</p>
+<p>&emsp;&emsp;3.Java内存模型仅仅保证了基本的读取与赋值为原子性操作，其余的操作想要具备原子性，则需要synchronized关键字去实现，或者JUC里面的lock。如果想使int等类型自增操作具备原子性，则可以使用JUC包下的原子封装类型。</p>
+<h4 id="JMM与可见性"><a href="#JMM与可见性" class="headerlink" title="JMM与可见性"></a>JMM与可见性</h4><p>&emsp;&emsp;在多线程的环境下，如果某个线程首次读取共享变量，则首先到主内存中获取放入自己的工作内存中，然后后续的操作在工作线程中完成，最后操作结束后再次写入主内存。但是什么时候刷新这个最终结果到主内存中的时机是不确定的。</p>
+<p>&emsp;&emsp;1.使用关键字volatile。当一个变量被volatile修饰的时候，对于共享资源的读取会直接在主内存中进行（也会缓存到工作内存），当其他线程对该共享资源进行了修改，会导致当前工作线程的缓存失效，必须再次到主内存获取再次放入工作内存。对于共享资源的写操作是需要先修改工作内存，随后立即刷新到主内存。对于共享资源的操作会时刻保持与主内存的数据一致。因为被volatile关键字修饰的变量，如果某个线程对其进行了更改，它就会立马进行一次工作内存刷新同步至主内存的操作；同理，如果某个线程读取volatile关键字修饰的变量，那么该线程返回自己工作内存中的变量时，每次都会被要求从主内存再同步一次到工作内存中。</p>
+<p>&emsp;&emsp;2.通过关键字synchronized，它保证在同一时刻仅有一个线程获取到锁，然后执行同步方法，并且还会确保在释放锁之前，会将对变量的修改刷新到主内存。</p>
+<p>&emsp;&emsp;3.通过JUC提供的显式锁Lock也可以保证内存的可见性。</p>
+<h4 id="JMM与有序性"><a href="#JMM与有序性" class="headerlink" title="JMM与有序性"></a>JMM与有序性</h4><p>&emsp;&emsp;在Java内存模型运行编译器和处理器对指令进行重排序，在单线程情况下并不会出现什么问题。但是在多线程的情况下，重排序可能会影响到程序的正常的运行。</p>
+<p>&emsp;&emsp;1.使用volatile关键字保证有序性。</p>
+<p>&emsp;&emsp;2.使用synchronized关键字保证有序性。</p>
+<p>&emsp;&emsp;3.使用显式锁Lock保证有序性。</p>
+<p>&emsp;&emsp;后两者采用了同步机制，同步代码在执行的过程中与在单线程下执行一致，也就能够保证了有序性（最终结果的顺序）。</p>
+<h4 id="happens-before原则"><a href="#happens-before原则" class="headerlink" title="happens-before原则"></a>happens-before原则</h4><p>&emsp;&emsp;1.程序次序原则：在一个线程内，代码按照编写的次序执行，编写在后面的操作要发生在编写在前面的操作之后（似乎有点废话）。</p>
+<p>&emsp;&emsp;2.锁定规则：一个unlock的操作要先行发生于对同一个锁的lock操作。无论在单线程还是多线程的情况下，如果同一个锁是锁定状态，那么必须先对它进行释放锁操作才能继续进行lock操作。</p>
+<p>&emsp;&emsp;3.volatile原则：对一个变量的写操作要早于对这个变量的读操作。一个线程对它进行读操作，另一个线程对它进行写操作，那么写入操作肯定要先行发生于读操作。</p>
+<p>&emsp;&emsp;4.传递原则：如果操作A先于B，而操作B又先于操作C。那么操作A肯定要先于操作C。</p>
+<p>&emsp;&emsp;5.线程启动规则：Thread对象的start()方法先行发生于对线程的任何操作。</p>
+<p>&emsp;&emsp;6.线程中断原则：对象线程进行打断（interrupt）要优先于捕获到中断信号。</p>
+<p>&emsp;&emsp;7.线程终结原则：线程中所有的操作都要先行发生于线程的终止操作。</p>
+<p>&emsp;&emsp;8.对象的终结原则：一个对象的初始化完成先行发生于finalize（）方法之前。</p>
+<h2 id="volatile关键字深入"><a href="#volatile关键字深入" class="headerlink" title="volatile关键字深入"></a>volatile关键字深入</h2><h3 id="volatile的语义"><a href="#volatile的语义" class="headerlink" title="volatile的语义"></a>volatile的语义</h3><p>&emsp;&emsp;1.保证了不同线程间的共享变量的内存可见性，如果一个线程修改了volatile修饰的共享变量，那么另一个线程可以马上看到修改之后的结果。</p>
+<p>&emsp;&emsp;2.禁止对指令进行重排序操作。</p>
+<p>&emsp;&emsp;3.读操作后：插入<strong>LoadLoad</strong>屏障(禁止后面所有普通读和上面<strong>volatile</strong>读重排序)，插入<strong>LoadStore</strong>屏障（静止后面普通写和上面<strong>volatile</strong>读重排序）</p>
+<p>&emsp;&emsp;4.写操作前：插入<strong>StoreStore</strong>屏障（保证<strong>volatile</strong>写之前，其前面所有的普通写已经对任意处理器可见）</p>
+<p>&emsp;&emsp;5.写操作后：插入<strong>StoreLoad</strong>屏障（避免<strong>volatile</strong>写后面可能有<strong>volatile</strong>读写操作重排序）</p>
+<h3 id="原理与实现机制"><a href="#原理与实现机制" class="headerlink" title="原理与实现机制"></a>原理与实现机制</h3><p>&emsp;&emsp;其实使用volatile修饰的变量，存在了一个lock；的前缀。相当于一个内存屏障，该屏障可以提供以下几个保障。</p>
+<p>&emsp;&emsp;1.确保指令重排序不会将其后面的代码排到内存屏障之前。</p>
+<p>&emsp;&emsp;2.确保指令重排序不会将其前面的代码排到内存屏障之后。</p>
+<p>&emsp;&emsp;3.确保在执行到内存屏障修饰的指令时前面的代码全部执行完成。</p>
+<p>&emsp;&emsp;4.强制将线程工作内存中的值刷新到主内存。</p>
+<p>&emsp;&emsp;5.如果是写操作，则会导致其他线程的工作内存中的缓存数据失效。</p>
+<h2 id="volatile与synchronized"><a href="#volatile与synchronized" class="headerlink" title="volatile与synchronized"></a>volatile与synchronized</h2><h3 id="使用区别"><a href="#使用区别" class="headerlink" title="使用区别"></a>使用区别</h3><p>&emsp;&emsp;1.volatile关键字只能修饰实例变量或类变量，不能修饰方法以及方法参数、局部变量、常量等。</p>
+<p>&emsp;&emsp;2.volatile关键字修饰的变量可以为null,synchronized关键字同步代码块的monitor对象不能为null。</p>
+<p>&emsp;&emsp;3.synchronized关键字不能对于变量修饰，只能用于修饰方法或者语句代码块。</p>
+<h3 id="对原子性的保证"><a href="#对原子性的保证" class="headerlink" title="对原子性的保证"></a>对原子性的保证</h3><p>&emsp;&emsp;1.volatile无法保证原子性。</p>
+<p>&emsp;&emsp;2.synchronized关键字是一种排他机制，因此它所修饰的代码块是无法打断的，故此能够保证带代码的原子性。</p>
+<h3 id="对可见性的保证"><a href="#对可见性的保证" class="headerlink" title="对可见性的保证"></a>对可见性的保证</h3><p>&emsp;&emsp;1.两者都可以保证共享资源在多线程之间的可见性，但是实现机制却完全不同。</p>
+<p>&emsp;&emsp;2.synchronized借助JCM指令monitor enter与monitor exit通过排他的形式使得代码实现了串行化，在monitor exit时会将所有的共享资源刷新到主内存。</p>
+<p>&emsp;&emsp;3.相比较于synchronized关键字，volatile关键字使用机器指令lock;的方式迫使其他线程的工作内存的缓存强制失效，不得已到主内存再次读取数据。</p>
+<h3 id="对有序性的保证"><a href="#对有序性的保证" class="headerlink" title="对有序性的保证"></a>对有序性的保证</h3><p>&emsp;&emsp;1.volatile关键字静止JVM编译器以及处理器对其进行重排序操作，故此能够保证代码的有序性。</p>
+<p>&emsp;&emsp;2.synchronized关键字修饰的代码也可以保证顺序性芒担石这种顺序性是通过同步代码串行化所换来的，在同步代码中的代码也会发现重排序操作。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>&emsp;&emsp;volatile不会使线程陷入阻塞状态，而synchronized关键字由于串行化操作会导致线程陷入阻塞状态。</p>
+<h2 id="Lock指令"><a href="#Lock指令" class="headerlink" title="Lock指令"></a>Lock指令</h2><p>&emsp;&emsp;Lock指令前缀会进行数据总线加锁，阻止其他的处理器接管总线去访问内存，知道Lock前缀的指令执行结束，那么这样会导致该指令的执行变为原子性操作。若是进行了写操作，则会发出<strong>RFO</strong>指令，使缓存中的数据遵守缓存一致性协议，从而达到可见性。</p>
+<h2 id="内存屏障"><a href="#内存屏障" class="headerlink" title="内存屏障"></a>内存屏障</h2><p>&emsp;&emsp;1.存在的原因：主要是因为<strong>mov</strong>指令在CPU级别是原子性操作，但是这个操作是存在于缓存之中的。</p>
+<p>&emsp;&emsp;2.CPU的关系：CPU-&gt;寄存器-&gt;缓存-&gt;内存。其中CPU只与寄存器进行存取操作。</p>
+<p>&emsp;&emsp;3.寄存器：临时存放数据，并不是每次都从内存中获取，而是从缓存中获取，仅仅是一个临时存放数据的空间。</p>
+<p>&emsp;&emsp;4.在<strong>mov</strong>指令中，寄存器会从缓存中获取值，例如进行了<strong>+1</strong>的操作，然后又存放进了缓存。在这个时间段内，并没有和内存产生交互，所以会加上一层内存屏障。</p>
+<p>&emsp;&emsp;5.内存屏障：由于CPU为了在一定程度上提升性能会将无关内存的操作进行乱序化处理，那么在多核CPU间或者在CPU与IO设备间的交互时会产生问题。它主要是为了解决这一系列问题而产生的，其实它是一类同步屏障指令，是CPU或者编译器在对内存的随机访问的操作中的一个同步点，这样可以时在此同步点之前的所有的读写操作都执行完毕后才开始执行该点以后的操作。</p>
+<p>&emsp;&emsp;6.那么内存屏障主要就是保证所有的写的操作都进入到内存，内存屏障以后的操作都能获取内存屏障之前写操作的结果。从而保证了可见性，并且禁止了重排序。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sanmeng</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.huhdcc.top/2020/06/04/31866/hub/">https://blog.huhdcc.top/2020/06/04/31866/hub/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.huhdcc.top" target="_blank">Here will be a new beginning</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JAVA/">JAVA</a><a class="post-meta__tags" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a></div><div class="post_share"><div class="social-share" data-image="https://blog.huhdcc.top/image/hexo/image-20211022133817250.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/06/05/61297/hub/"><img class="prev_cover" src="https://blog.huhdcc.top/image/hexo/image-20200605211833544.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">多线程进阶-10-单例模式与扩展</div></div></a></div><div class="next-post pull_right"><a href="/2020/05/26/16504/hub/"><img class="next_cover" src="https://blog.huhdcc.top/image/hexo/image-20200526214756699.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">多线程基础-08-线程池原理以及自定义线程池</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2020/05/23/34947/hub/" title="多线程基础-01(线程的生命周期)"><img class="relatedPosts_cover" src="https://blog.huhdcc.top/image/hexo/image-20200523212349727.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-23</div><div class="relatedPosts_title">多线程基础-01(线程的生命周期)</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/23/15964/hub/" title="多线程基础-02-线程的start方法剖析"><img class="relatedPosts_cover" src="https://blog.huhdcc.top/image/hexo/image-20200523235212301.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-23</div><div class="relatedPosts_title">多线程基础-02-线程的start方法剖析</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/24/1724/hub/" title="多线程基础-03-Thread的构造函数详解"><img class="relatedPosts_cover" src="https://blog.huhdcc.top/image/hexo/image-20200524143238845.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-24</div><div class="relatedPosts_title">多线程基础-03-Thread的构造函数详解</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/24/16108/hub/" title="多线程基础-04-Thread API"><img class="relatedPosts_cover" src="https://blog.huhdcc.top/image/hexo/image-20200524181123778.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-24</div><div class="relatedPosts_title">多线程基础-04-Thread API</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/25/45426/hub/" title="多线程基础-06-ThroupGroup详解"><img class="relatedPosts_cover" src="https://blog.huhdcc.top/image/hexo/image-20200525221647389.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-25</div><div class="relatedPosts_title">多线程基础-06-ThroupGroup详解</div></div></a></div><div class="relatedPosts_item"><a href="/2020/05/25/41839/hub/" title="多线程基础-07-获取线程运行时的异常"><img class="relatedPosts_cover" src="https://blog.huhdcc.top/image/hexo/image-20200525225744355.png"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2020-05-25</div><div class="relatedPosts_title">多线程基础-07-获取线程运行时的异常</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By sanmeng</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div><div class="footer_custom_text">Hi, welcome to my <a href="https://blog.huhdcc.top/">blog</a>!</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script id="ribbon_piao" mobile="false" src="/js/third-party/piao.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script><script src="/js/third-party/click_heart.js"></script><script src="/js/third-party/ClickShowText.js"></script><script src="/js/search/local-search.js"></script><script src="https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@master/Hexo/js/hideCategory.min.js"></script></body></html>
